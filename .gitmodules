@@ -1,0 +1,15 @@
+[submodule "Deps/shaderc"]
+	path = Deps/shaderc
+	url = https://github.com/google/shaderc.git
+[submodule "Deps/SPIRV-Cross"]
+	path = Deps/SPIRV-Cross
+	url = https://github.com/KhronosGroup/SPIRV-Cross.git
+[submodule "Deps/SPIRV-Tools"]
+	path = Deps/SPIRV-Tools
+	url = https://github.com/KhronosGroup/SPIRV-Tools.git
+[submodule "Deps/SPIRV-Headers"]
+	path = Deps/SPIRV-Headers
+	url = https://github.com/KhronosGroup/SPIRV-Headers.git
+[submodule "Deps/glslang"]
+	path = Deps/glslang
+	url = https://github.com/KhronosGroup/glslang.git

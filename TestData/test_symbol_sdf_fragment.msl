@@ -1,0 +1,62 @@
+#include <metal_stdlib>
+#include <simd/simd.h>
+
+using namespace metal;
+
+struct _Uniforms
+{
+    uint u_is_halo;
+    float u_gamma_scale;
+    float u_device_pixel_ratio;
+    uint u_is_text;
+    float4 fill_color;
+    float4 halo_color;
+    float opacity;
+    float halo_width;
+    float halo_blur;
+};
+
+struct main0_out
+{
+    float4 FragColor [[color(0)]];
+};
+
+struct main0_in
+{
+    float2 v_data0 [[user(locn0)]];
+    float3 v_data1 [[user(locn1)]];
+};
+
+fragment main0_out main0(main0_in in [[stage_in]], constant _Uniforms& _15 [[buffer(0)]], texture2d<float> u_texture [[texture(0)]], sampler u_textureSmplr [[sampler(0)]])
+{
+    main0_out out = {};
+    float _21 = 0.104999996721744537353515625 / _15.u_device_pixel_ratio;
+    float _141;
+    if (_15.u_is_text != 0u)
+    {
+        _141 = in.v_data1.y * 0.0416666679084300994873046875;
+    }
+    else
+    {
+        _141 = in.v_data1.y;
+    }
+    float _72 = _141 * _15.u_gamma_scale;
+    float _145;
+    float _148;
+    float4 _149;
+    if (_15.u_is_halo != 0u)
+    {
+        _149 = _15.halo_color;
+        _148 = (6.0 - (_15.halo_width / _141)) * 0.125;
+        _145 = fma(_15.halo_blur, 0.148750007152557373046875, _21) / _72;
+    }
+    else
+    {
+        _149 = _15.fill_color;
+        _148 = 0.75;
+        _145 = _21 / _72;
+    }
+    out.FragColor = _149 * ((smoothstep(fma(-_145, in.v_data1.x, _148), fma(_145, in.v_data1.x, _148), u_texture.sample(u_textureSmplr, in.v_data0).w) * _15.opacity) * in.v_data1.z);
+    return out;
+}
+
